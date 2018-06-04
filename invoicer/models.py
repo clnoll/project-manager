@@ -79,7 +79,7 @@ class Work(BaseModel):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
 
     description = models.CharField(max_length=1000)
+    start_time = models.DateTimeField(null=True)
     end_time = models.DateTimeField(null=True)
     minutes_billed = models.IntegerField(null=True)
     rate = models.FloatField(null=True)
-    start_time = models.DateTimeField(null=True)
