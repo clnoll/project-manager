@@ -1,8 +1,42 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
+from django.urls import reverse
 
-from .models import Client, ClientGroup, Project
+from invoicer.forms import (client_form,
+                            client_group_form,
+                            project_form,
+                            task_form,
+                            invoice_form,
+                            work_form)
+from invoicer.models import (Client,
+                             ClientGroup,
+                             Project,
+                             Task,
+                             Invoice,
+                             Work)
+
+
+def _get_object(request, object_cls, object_id):
+    try:
+        obj = object_cls.objects.get(pk=object_id)
+    except object_cls.DoesNotExist:
+        raise Http404("{} does not exist".format(obj_cls.__name__))
+    else:
+        return obj
+
+
+def _post_form(request, form_cls, redirect_fn_name, form_name):
+    if request.method == 'POST':
+        form = form_cls(request.POST)
+        if form.is_valid():
+            obj = form.save()
+            HttpResponseRedirect(reverse('invoicer:{}'.format(redirect_fn_name), args=(obj.id,)))
+
+    else:
+        form = form_cls()
+
+    return render(request, 'invoicer/{}.html'.format(form_name), {'form': form})
 
 
 def index(request):
@@ -13,34 +47,61 @@ def index(request):
     return render(request, 'invoicer/index.html', context)
 
 
-def client(request, client_id):
-    try:
-        client = Client.objects.get(pk=client_id)
-    except Client.DoesNotExist:
-        raise Http404("Client does not exist")
-    return render(request, 'invoicer/client.html', {'client': client})
+def get_client(request, client_id):
+    return render(request,
+                  'invoicer/client.html',
+                  {'client': _get_object(request, Client, client_id)})
 
 
-def client_group(request, client_group_id):
-    try:
-        client_group = ClientGroup.objects.get(pk=client_group_id)
-
-    except ClientGroup.DoesNotExist:
-        raise Http404("Client Group does not exist")
-    return render(request, 'invoicer/client_group.html', {'client_group': client_group, 'clients': client_group.clients.all()})    
+def create_client(request):
+    return _post_form(request, client_form.ClientForm, 'get_client', 'client_form')
 
 
-def project(request, project_id):
-    return HttpResponse("project_id: %s." % project_id)
+def get_client_group(request, client_group_id):
+    return render(request,
+                  'invoicer/client_group.html',
+                  {'client_group': _get_object(request, ClientGroup, client_group_id)})
 
 
-def task(request, task_id):
-    return HttpResponse("task_id: %s." % task_id)
+def create_client_group(request):
+    return _post_form(request, client_group_form.ClientGroupForm, 'get_client_group', 'client_group_form')
 
 
-def invoice(request, invoice_id):
-    return HttpResponse("invoice_id: %s." % invoice_id)
+def get_project(request, project_id):
+    return render(request,
+                  'invoicer/project.html',
+                  {'project': _get_object(request, Project, project_id)})
 
 
-def work(request, work_id):
-    return HttpResponse("work_id: %s." % work_id)
+def create_project(request):
+    return _post_form(request, project_form.ProjectForm, 'get_project', 'project_form')
+
+
+def get_task(request, task_id):
+    return render(request,
+                  'invoicer/task.html',
+                  {'task': _get_object(request, Task, task_id)})
+
+
+def create_task(request):
+    return _post_form(request, task_form.TaskForm, 'get_task', 'task_form')
+
+
+def get_invoice(request, invoice_id):
+    return render(request,
+                  'invoicer/invoice.html',
+                  {'invoice': _get_object(request, Invoice, invoice_id)})
+
+
+def create_invoice(request):
+    return _post_form(request, invoice_form.InvoiceForm, 'get_invoice', 'invoice_form')
+
+
+def get_work(request, work_id):
+    return render(request,
+                  'invoicer/work.html',
+                  {'work': _get_object(request, Work, work_id)})
+
+
+def create_work(request):
+    return _post_form(request, work_form.WorkForm, 'get_work', 'work_form')

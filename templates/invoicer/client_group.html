@@ -1,0 +1,12 @@
+<h1>Client Group: {{ client_group.name }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'invoicer:client_group' client_group.id %}" method="post">
+{% csrf_token %}
+{% for client in clients %}
+    <input type="radio" name="client" id="client{{ forloop.counter }}" value="{{ client.name }}" />
+    <label for="choice{{ forloop.counter }}">{{ client.name }}: {{ client.is_primary }}</label><br />
+{% endfor %}
+<input type="submit" value="Primary client" />
+</form>
