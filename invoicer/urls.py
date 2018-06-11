@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from . import views
 
@@ -42,6 +43,9 @@ urlpatterns = [
     # ex: /invoicer/project/1/invoice/create/
     path('project/<int:project_id>/invoice/create/',
          views.create_invoice, name='create_invoice'),
+
+    path('react-demo/',
+         TemplateView.as_view(template_name='index.html')),
 
     # ex: /invoicer/work/5/
     path('work/<int:work_id>/', views.get_work, name='get_work'),
