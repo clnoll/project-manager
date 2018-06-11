@@ -1,3 +1,7 @@
+import csv
+
+# from django.db import connection
+from django.apps import apps
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
@@ -15,6 +19,7 @@ from invoicer.models import (Client,
                              Task,
                              Invoice,
                              Work)
+from invoicer.utils import sqlite_utils
 
 
 def _get_object(request, object_cls, object_id):
@@ -120,3 +125,19 @@ def get_work(request, work_id):
 
 def create_work(request):
     return _post_form(request, work_form.WorkForm, 'get_work', 'work_form')
+
+
+def export_db(request):
+    import ipdb ; ipdb.set_trace()
+    models = apps.all_models['invoicer']
+    for model in models.values():
+        filename = "{}_{}".format(datetime.now().strftime("%Y%m%d_%H%M%S"))
+        objs = model.objects.all()
+        
+    # with connection.cursor() as cursor:
+    #     tables = cursor.execute(sqlite_utils.LIST_TABLES);
+    #     # cursor.execute("UPDATE bar SET foo = 1 WHERE baz = %s", [self.baz])
+    #     # cursor.execute("SELECT foo FROM bar WHERE baz = %s", [self.baz])
+    #     # row = cursor.fetchone()
+
+    # return render(request, 'invoicer/backup_complete.html')
