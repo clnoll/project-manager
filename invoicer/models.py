@@ -14,14 +14,14 @@ class Client(BaseModel):
     is_primary = models.BooleanField()
     name = models.CharField(max_length=200)
     primary_phone = models.CharField(max_length=50)
-    secondary_phone = models.CharField(max_length=50, null=True)
+    secondary_phone = models.CharField(max_length=50, blank=True)
 
 
 class ClientGroup(BaseModel):
     clients = models.ManyToManyField(Client)
 
-    description = models.CharField(max_length=1000, null=True)
-    name = models.CharField(max_length=200, null=True)
+    description = models.CharField(max_length=1000, null=True, blank=True)
+    name = models.CharField(max_length=200)
 
     
 class ProjectStatus(BaseModel):
@@ -34,11 +34,11 @@ class ProjectType(BaseModel):
     
 class Project(BaseModel):
     client_group = models.ForeignKey(ClientGroup, on_delete=models.CASCADE)
-    status = models.ForeignKey(ProjectStatus, on_delete=models.CASCADE, null=True)
-    type = models.ForeignKey(ProjectType, on_delete=models.CASCADE, null=True)
+    status = models.ForeignKey(ProjectStatus, on_delete=models.CASCADE, null=True, blank=True)
+    type = models.ForeignKey(ProjectType, on_delete=models.CASCADE, null=True, blank=True)
 
     name = models.CharField(max_length=200)
-    start = models.DateTimeField(null=True)
+    start = models.DateTimeField(null=True, blank=True)
 
 
 class TaskStatus(BaseModel):
@@ -46,18 +46,18 @@ class TaskStatus(BaseModel):
 
 
 class TaskType(BaseModel):
-    default_cost = models.FloatField(null=True)
+    default_cost = models.FloatField(null=True, blank=True)
     description = models.CharField(max_length=1000)
 
 
 class Task(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    status = models.ForeignKey(TaskStatus, on_delete=models.CASCADE, null=True)
-    type = models.ForeignKey(TaskType, on_delete=models.CASCADE, null=True)
+    status = models.ForeignKey(TaskStatus, on_delete=models.CASCADE, null=True, blank=True)
+    type = models.ForeignKey(TaskType, on_delete=models.CASCADE, null=True, blank=True)
 
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=1000, blank=True)
     name = models.CharField(max_length=200)
-    start = models.DateTimeField(null=True)
+    start = models.DateTimeField(null=True, blank=True)
 
 
 class InvoiceStatus(BaseModel):
@@ -65,21 +65,21 @@ class InvoiceStatus(BaseModel):
 
 
 class Invoice(BaseModel):
-    status = models.ForeignKey(InvoiceStatus, on_delete=models.CASCADE, null=True)
+    status = models.ForeignKey(InvoiceStatus, on_delete=models.CASCADE, null=True, blank=True)
 
-    amount_paid = models.FloatField(null=True)
-    date_sent = models.DateTimeField(null=True)
-    date_paid = models.DateTimeField(null=True)
-    description = models.CharField(max_length=1000, null=True)
-    total = models.FloatField(null=True)
+    amount_paid = models.FloatField(null=True, blank=True)
+    date_sent = models.DateTimeField(null=True, blank=True)
+    date_paid = models.DateTimeField(null=True, blank=True)
+    description = models.CharField(max_length=1000, blank=True)
+    total = models.FloatField(null=True, blank=True)
 
 
 class Work(BaseModel):
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, null=True)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, null=True, blank=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     description = models.CharField(max_length=1000)
-    start_time = models.DateTimeField(null=True)
-    end_time = models.DateTimeField(null=True)
-    minutes_billed = models.IntegerField(null=True)
-    rate = models.FloatField(null=True)
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    minutes_billed = models.IntegerField(null=True, blank=True)
+    rate = models.FloatField(null=True, blank=True)
