@@ -93,8 +93,23 @@ def get_invoice(request, invoice_id):
                   {'invoice': _get_object(request, Invoice, invoice_id)})
 
 
-def create_invoice(request):
-    return _post_form(request, invoice_form.InvoiceForm, 'get_invoice', 'invoice_form')
+def create_invoice(request, project_id):
+    [project] = Project.objects.filter(id=project_id)
+    tasks = Task.objects.filter(project_id=project_id)
+    works = Work.objects.filter(task_id__project_id=project_id)
+
+    if request.method == 'POST':
+        form = invoice_form.InvoiceForm(request.POST)
+        if form.is_valid():
+            invoice = form.save(works)
+        return render(request,
+                      'invoicer/printable_invoice.html',
+                      {'invoice': invoice, 'project': project, 'tasks': tasks})
+
+    else:
+        return render(request,
+                      'invoicer/invoice_form.html',
+                      {'project': project, 'tasks': tasks})
 
 
 def get_work(request, work_id):

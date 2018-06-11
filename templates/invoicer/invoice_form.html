@@ -1,5 +1,48 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit" />
+<form method="post" action="">
+  {% csrf_token %}
+  <p>
+    Project: {{ project.name }}
+  </p>
+  {% for task in tasks %}
+  {% if task.work_set.exists %}
+  <h3> {{ task.name }}: </h3>
+  <table>
+    <tr>
+      <th>Description</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+      <th>Minutes Billed</th>
+      <th>Rate</th>
+      <th>Invoice?</th>
+    </tr>
+    {% for work in task.work_set.all %}
+    <tr>
+      <td>
+	{{ work.description }}
+      </td>
+      <td>
+	{{ work.start_time }}
+      </td>
+      <td>
+	{{ work.end_time }}
+      </td>
+      <td>
+	{{ work.minutes_billed }}
+      </td>
+      <td>
+	{{ work.rate }}
+      </td>
+      <td>
+	{% if work.invoice %}
+	<input type="checkbox" name="invoice" />
+	{% else %}
+	<input type="checkbox" name="invoice" checked=true/>
+	{% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+  {% endfor %}
+  <input type="submit" value="Submit" />
 </form>
