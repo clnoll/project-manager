@@ -4,7 +4,7 @@
     Project: {{ project.name }}
   </p>
   {% for task in project.task_set.all %}
-  {% if task.work_set.exists %}
+  {% if task.taskitem_set.exists %}
   <h3> {{ task.name }}: </h3>
   <table>
     <tr>
@@ -15,28 +15,28 @@
       <th>Rate</th>
       <th>Invoice?</th>
     </tr>
-    {% for work in task.work_set.all %}
+    {% for item in task.taskitem_set.all %}
     <tr>
       <td>
-	{{ work.description }}
+	{{ item.description }}
       </td>
       <td>
-	{{ work.start_time }}
+	{{ item.start_time }}
       </td>
       <td>
-	{{ work.end_time }}
+	{{ item.end_time }}
       </td>
       <td>
-	{{ work.minutes_billed }}
+	{{ item.minutes_billed }}
       </td>
       <td>
-	{{ work.rate }}
+	{{ item.rate }}
       </td>
       <td>
-	{% if work.invoice %}
-	<input type="checkbox" name="work_{{ work.id }}" />
+	{% if item.invoice %}
+	<input type="checkbox" name="task_item_{{ item.id }}" />
 	{% else %}
-	<input type="checkbox" name="work_{{ work.id }}" checked=true />
+	<input type="checkbox" name="task_item_{{ item.id }}" checked=true />
 	{% endif %}
       </td>
     </tr>

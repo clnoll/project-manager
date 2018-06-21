@@ -47,9 +47,9 @@ urlpatterns = [
     path('react-demo/',
          TemplateView.as_view(template_name='index.html')),
 
-    # ex: /invoicer/work/5/
-    path('work/<int:work_id>/', views.get_work, name='get_work'),
+    # ex: /invoicer/task-item/5/
+    path('task-item/<int:task_item_id>/', views.get_task_item, name='get_task_item'),
 
-    # ex: /invoicer/work/create/
-    path('work/create/', views.create_work, name='create_work'),
+    # ex: /invoicer/task-item/create/
+    path('task-item/create/', views.create_task_item, name='create_task_item'),
 ]

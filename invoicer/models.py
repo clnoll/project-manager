@@ -74,7 +74,7 @@ class Invoice(BaseModel):
     total = models.FloatField(null=True, blank=True)
 
 
-class Work(BaseModel):
+class TaskItem(BaseModel):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, null=True, blank=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 

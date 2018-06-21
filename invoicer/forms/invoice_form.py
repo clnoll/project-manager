@@ -1,6 +1,6 @@
 from django import forms
 
-from invoicer.models import Invoice, Work
+from invoicer.models import Invoice, TaskItem
 
 
 class InvoiceForm(forms.ModelForm):
@@ -11,6 +11,6 @@ class InvoiceForm(forms.ModelForm):
 
     def save(self, project, *args, **kwargs):
         invoice = super().save(*args, **kwargs)
-        work_ids = [int(k.lstrip('work_')) for k in self.data.dict().keys() if 'work_' in k]
-        Work.objects.filter(pk__in=work_ids).update(invoice_id=invoice.id)
+        task_item_ids = [int(k.lstrip('task_item_')) for k in self.data.dict().keys() if 'task_item_' in k]
+        TaskItem.objects.filter(pk__in=task_item_ids).update(invoice_id=invoice.id)
         return invoice

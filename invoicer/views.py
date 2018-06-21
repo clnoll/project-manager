@@ -12,13 +12,13 @@ from invoicer.forms import (client_form,
                             project_form,
                             task_form,
                             invoice_form,
-                            work_form)
+                            task_item_form)
 from invoicer.models import (Client,
                              ClientGroup,
                              Project,
                              Task,
                              Invoice,
-                             Work)
+                             TaskItem)
 from invoicer.utils import sqlite_utils
 
 
@@ -74,7 +74,7 @@ def create_client_group(request):
 
 def get_project(request, project_id):
     return render(request,
-                  'invoicer/project.html',
+                  'invoicer/project_form.html',
                   {'project': _get_object(request, Project, project_id)})
 
 
@@ -132,14 +132,14 @@ def create_invoice(request, project_id):
                   {'project': project})
 
 
-def get_work(request, work_id):
+def get_task_item(request, task_item_id):
     return render(request,
-                  'invoicer/work.html',
-                  {'work': _get_object(request, Work, work_id)})
+                  'invoicer/task_item.html',
+                  {'task_item': _get_object(request, TaskItem, task_item_id)})
 
 
-def create_work(request):
-    return _post_form(request, work_form.WorkForm, 'get_work', 'work_form')
+def create_task_item(request):
+    return _post_form(request, task_item_form.TaskItemForm, 'get_task_item', 'task_item_form')
 
 
 def export_db(request):
