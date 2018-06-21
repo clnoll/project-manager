@@ -9,7 +9,20 @@ class BaseModel(models.Model):
         return str(self.__dict__)
 
 
+class Company(BaseModel):
+    business_name = models.CharField(max_length=200)
+    city = models.CharField(max_length=200, default='')
+    state = models.CharField(max_length=200, default='')
+    street_address1 = models.CharField(max_length=200, default='')
+    street_address2 = models.CharField(max_length=200, default='')
+    zip = models.CharField(max_length=20, default='')
+    phone = models.CharField(max_length=50, default='')
+    fax = models.CharField(max_length=50, default='')
+
+
 class Client(BaseModel):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
+
     email = models.CharField(max_length=200)
     is_primary = models.BooleanField()
     name = models.CharField(max_length=200)
@@ -23,7 +36,13 @@ class ClientGroup(BaseModel):
     description = models.CharField(max_length=1000, default='')
     name = models.CharField(max_length=200, default='')
 
-    
+
+class Employee(BaseModel):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    title = models.CharField(max_length=50)
+
+
 class ProjectStatus(BaseModel):
     description = models.CharField(max_length=1000, default='')
 
@@ -75,6 +94,7 @@ class Invoice(BaseModel):
 
 
 class TaskItem(BaseModel):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, null=True, blank=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
