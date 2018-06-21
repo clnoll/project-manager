@@ -92,29 +92,44 @@ def create_task(request):
     return _post_form(request, task_form.TaskForm, 'get_task', 'task_form')
 
 
-def get_invoice(request, invoice_id):
+def get_invoice(request, project_id, invoice_id):
+    project = _get_object(request, Project, project_id)
+    invoice = _get_object(request, Invoice, invoice_id)
     return render(request,
-                  'invoicer/invoice.html',
-                  {'invoice': _get_object(request, Invoice, invoice_id)})
+                  'invoicer/printable_invoice.html',
+                  {'invoice': invoice, 'project': project})
 
 
 def create_invoice(request, project_id):
-    [project] = Project.objects.filter(id=project_id)
-    tasks = Task.objects.filter(project_id=project_id)
-    works = Work.objects.filter(task_id__project_id=project_id)
+    project = Project.objects.get(id=project_id)
 
     if request.method == 'POST':
         form = invoice_form.InvoiceForm(request.POST)
         if form.is_valid():
-            invoice = form.save(works)
-        return render(request,
-                      'invoicer/printable_invoice.html',
-                      {'invoice': invoice, 'project': project, 'tasks': tasks})
-
+            invoice = form.save(project)
+            # Redirect to the detail page for the Invoice that was just created.
+            url = reverse('invoicer:get_invoice', args=(project.id, invoice.id))
+            return HttpResponseRedirect(url)
     else:
-        return render(request,
-                      'invoicer/invoice_form.html',
-                      {'project': project, 'tasks': tasks})
+        # GET form HTML
+
+        # Usually, one would instantiate the form (unbound), and use it to autogenerate the HTML. I.e.
+
+        # form = invoice_form.InvoiceForm()
+        # render(request, 'invoicer/invoice_form.html', {'form': form})
+        # HTML would contain {{form}}
+
+        # However, we do not yet have a form class that knows how to
+        # display the checkboxes for the Task rows that have a foreign
+        # key to this Invoice.
+        # So for now, the template defines the form HTML manually.
+        pass
+
+    # Return HTML on GET or invalid form POST.
+    # Usually a form object would be passed in the context, but see comment above.
+    return render(request,
+                  'invoicer/invoice_form.html',
+                  {'project': project})
 
 
 def get_work(request, work_id):
