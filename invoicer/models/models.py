@@ -89,7 +89,7 @@ class Invoice(BaseModel):
     amount_paid = models.FloatField(null=True, blank=True)
     date_sent = models.DateTimeField(null=True, blank=True)
     date_paid = models.DateTimeField(null=True, blank=True)
-    description = models.CharField(max_length=1000, default='')
+    description = models.CharField(max_length=1000, default='', blank=True)
     total = models.FloatField(null=True, blank=True)
 
 

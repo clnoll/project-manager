@@ -13,12 +13,13 @@ from invoicer.forms import (client_form,
                             task_form,
                             invoice_form,
                             task_item_form)
-from invoicer.models import (Client,
-                             ClientGroup,
-                             Project,
-                             Task,
-                             Invoice,
-                             TaskItem)
+from invoicer.models.models import (Client,
+                                    ClientGroup,
+                                    Employee,
+                                    Project,
+                                    Task,
+                                    Invoice,
+                                    TaskItem)
 from invoicer.utils import sqlite_utils
 
 

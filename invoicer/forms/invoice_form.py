@@ -4,7 +4,7 @@ from collections import defaultdict
 from django import forms
 from django.db import transaction
 
-from invoicer.models import Invoice, Task, TaskItem
+from invoicer.models.models import Invoice, Task, TaskItem
 
 
 class InvoiceForm(forms.ModelForm):

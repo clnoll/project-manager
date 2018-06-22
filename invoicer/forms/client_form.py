@@ -1,6 +1,6 @@
 from django import forms
 
-from invoicer.models import Client
+from invoicer.models.models import Client
 
 
 class ClientForm(forms.ModelForm):

@@ -1,6 +1,6 @@
 from django import forms
 
-from invoicer.models import TaskItem
+from invoicer.models.models import TaskItem
 
 
 class TaskItemForm(forms.ModelForm):

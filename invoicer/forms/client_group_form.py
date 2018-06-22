@@ -1,6 +1,6 @@
 from django import forms
 
-from invoicer.models import ClientGroup
+from invoicer.models.models import ClientGroup
 
 
 class ClientGroupForm(forms.ModelForm):
