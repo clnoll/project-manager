@@ -5,21 +5,20 @@
   </p>
   {% for task in project.task_set.all %}
   {% if task.taskitem_set.exists %}
-  <h3> {{ task.name }}: </h3>
+  <h3>
+    <input name="task_name_{{task.id}}" value="{{ task.name }}" />
+  </h3>
   <table>
     <tr>
-      <th>Description</th>
       <th>Start Time</th>
       <th>End Time</th>
       <th>Minutes Billed</th>
       <th>Rate</th>
+      <th>Description</th>
       <th>Invoice?</th>
     </tr>
     {% for item in task.taskitem_set.all %}
     <tr>
-      <td>
-	{{ item.description }}
-      </td>
       <td>
 	{{ item.start_time }}
       </td>
@@ -27,16 +26,19 @@
 	{{ item.end_time }}
       </td>
       <td>
-	{{ item.minutes_billed }}
+	<input name="taskitem_minutes_billed_{{ item.id }}" value={{ item.minutes_billed }} />
       </td>
       <td>
-	{{ item.rate }}
+	<input name="taskitem_rate_{{ item.id }}" value={{ item.rate }} />
+      </td>
+      <td>
+	<input name="taskitem_description_{{ item.id }}" value={{ item.description }} />
       </td>
       <td>
 	{% if item.invoice %}
-	<input type="checkbox" name="task_item_{{ item.id }}" />
+	<input type="checkbox" name="invoice_{{ item.id }}" />
 	{% else %}
-	<input type="checkbox" name="task_item_{{ item.id }}" checked=true />
+	<input type="checkbox" name="invoice_{{ item.id }}" checked=true />
 	{% endif %}
       </td>
     </tr>
