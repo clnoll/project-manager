@@ -103,6 +103,7 @@ def get_invoice(request, project_id, invoice_id):
 
 def create_invoice(request, project_id):
     project = Project.objects.get(id=project_id)
+    employees = Employee.objects.all()
 
     if request.method == 'POST':
         form = invoice_form.InvoiceForm(request.POST)
@@ -130,7 +131,7 @@ def create_invoice(request, project_id):
     # Usually a form object would be passed in the context, but see comment above.
     return render(request,
                   'invoicer/invoice_form.html',
-                  {'project': project})
+                  {'project': project, 'employees': employees})
 
 
 def get_task_item(request, task_item_id):

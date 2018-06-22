@@ -14,6 +14,7 @@
       <th>End Time</th>
       <th>Minutes Billed</th>
       <th>Rate</th>
+      <th>Employee</th>
       <th>Description</th>
       <th>Invoice?</th>
     </tr>
@@ -30,6 +31,13 @@
       </td>
       <td>
 	<input name="taskitem_rate_{{ item.id }}" value={{ item.rate }} />
+      </td>
+      <td>
+      	<select name="taskitem_employee_id_{{item.id}}">
+	  {% for employee in employees %}
+	  <option value={{ employee.id }}>{{ employee.first_name }} {{ employee.last_name }}, {{ employee.title }}</option>
+	  {% endfor %}
+      	</select>
       </td>
       <td>
 	<input name="taskitem_description_{{ item.id }}" value={{ item.description }} />
