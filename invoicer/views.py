@@ -96,9 +96,10 @@ def create_task(request):
 def get_invoice(request, project_id, invoice_id):
     project = _get_object(request, Project, project_id)
     invoice = _get_object(request, Invoice, invoice_id)
+    employees = Employee.objects.all()
     return render(request,
                   'invoicer/printable_invoice.html',
-                  {'invoice': invoice, 'project': project})
+                  {'invoice': invoice, 'project': project, 'employees': employees})
 
 
 def create_invoice(request, project_id):

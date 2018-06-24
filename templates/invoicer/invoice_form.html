@@ -35,7 +35,11 @@
       <td>
       	<select name="taskitem_employee_id_{{item.id}}">
 	  {% for employee in employees %}
+	  {% if employee.id == item.employee_id %}
+	  <option value={{ employee.id }} selected>{{ employee.first_name }} {{ employee.last_name }}, {{ employee.title }}</option>
+	  {% else %}
 	  <option value={{ employee.id }}>{{ employee.first_name }} {{ employee.last_name }}, {{ employee.title }}</option>
+	  {% endif %}
 	  {% endfor %}
       	</select>
       </td>
