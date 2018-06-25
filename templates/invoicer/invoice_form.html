@@ -16,6 +16,7 @@
       <th>Rate</th>
       <th>Employee</th>
       <th>Description</th>
+      <th>Cost</th>
       <th>Invoice?</th>
     </tr>
     {% for item in task.taskitem_set.all %}
@@ -46,6 +47,7 @@
       <td>
 	<input name="taskitem_description_{{ item.id }}" value={{ item.description }} />
       </td>
+      <td>COST</td>
       <td>
 	{% if item.invoice %}
 	<input type="checkbox" name="invoice_{{ item.id }}" />

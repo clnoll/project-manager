@@ -1,0 +1,46 @@
+<form method="post" action="">
+  {% csrf_token %}
+  <p>
+    Invoice: {{ invoice.id }}
+  </p>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Minutes Billed</th>
+      <th>Rate</th>
+      <th>Employee</th>
+      <th>Task</th>
+      <th>Description</th>
+      <th>Cost</th>
+    </tr>
+    {% for task in project.task_set.all %}
+    {% if task.taskitem_set.exists %}
+    {% for item in task.taskitem_set.all %}
+    {% if item.invoice_id == invoice.id %}
+    <tr>
+      <td>
+	{{ item.start_time }}
+      </td>
+      <td>{{ item.minutes_billed }}</td>
+      <td>{{ item.rate }}</td>
+      <td>
+	{% for employee in employees %}
+	{% if employee.id == item.employee_id %}
+	{{ employee.first_name }} {{ employee.last_name }}, {{ employee.title }}
+	{% endif %}
+	{% endfor %}
+      </td>
+      <td>{{ task.name }}</td>
+      <td>{{ item.description }}</td>
+      <td>{{ item.cost }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </table>
+  {% endif %}
+  {% endfor %}
+  <input type="submit" value="Submit" />
+</form>
+
+<div id="root"></div>
+<script type="text/javascript" src="/static/js/main.8ea56e73.js"></script>
