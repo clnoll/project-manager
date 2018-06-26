@@ -1,4 +1,24 @@
-<form method="post" action="">
+<head>
+  <script>
+    function calculateCost(item_id) {
+    var rate = parseFloat(document.getElementById("taskitem_rate_" + item_id).value);
+    var minutes_billed = parseFloat(document.getElementById("taskitem_minutes_billed_" + item_id).value);
+    document.getElementById("taskitem_cost_" + item_id).innerHTML = "$" + Math.round(rate * minutes_billed / 60).toFixed(2);
+    };
+
+    function calculateAllCosts() {
+    var taskitems = document.getElementsByClassName("taskitem");
+    [].forEach.call(taskitems, function(taskitem) {
+    calculateCost(taskitem.id);
+    })
+    };
+
+    window.onload = function() {
+    calculateAllCosts();
+    };
+  </script>
+</head>
+<form method="post" action="" onload="window.onload()">
   {% csrf_token %}
   <p>
     Project: {{ project.name }}
@@ -20,7 +40,7 @@
       <th>Invoice?</th>
     </tr>
     {% for item in task.taskitem_set.all %}
-    <tr>
+    <tr id={{ item.id }} class="taskitem">
       <td>
 	{{ item.start_time }}
       </td>
@@ -47,7 +67,14 @@
       <td>
 	<input name="taskitem_description_{{ item.id }}" value={{ item.description }} />
       </td>
-      <td>COST</td>
+      <td>
+
+	<p id="taskitem_cost_{{ item.id }}"></p>
+	<p onload="calculateCost({{ item.id }})"></p>
+
+	<button type="button" onclick="calculateCost({{ item.id }})">calc</button>
+
+      </td>
       <td>
 	{% if item.invoice %}
 	<input type="checkbox" name="invoice_{{ item.id }}" />
