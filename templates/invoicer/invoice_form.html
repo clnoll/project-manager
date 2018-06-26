@@ -78,12 +78,7 @@
 	<input name="taskitem_description_{{ item.id }}" value={{ item.description }} />
       </td>
       <td>
-
 	<p id="taskitem_cost_{{ item.id }}"></p>
-	<p onload="calculateCost({{ item.id }})"></p>
-
-	<button type="button" onclick="calculateCost({{ item.id }})">calc</button>
-
       </td>
       <td>
 	{% if item.invoice %}
