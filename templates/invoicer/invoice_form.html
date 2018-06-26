@@ -48,18 +48,26 @@
 	{{ item.end_time }}
       </td>
       <td>
-	<input name="taskitem_minutes_billed_{{ item.id }}" value={{ item.minutes_billed }} />
+	<input id="taskitem_minutes_billed_{{ item.id }}"
+	       name="taskitem_minutes_billed_{{ item.id }}"
+	       value={{ item.minutes_billed }} />
       </td>
       <td>
-	<input name="taskitem_rate_{{ item.id }}" value={{ item.rate }} />
+	<input id="taskitem_rate_{{ item.id }}"
+	       name="taskitem_rate_{{ item.id }}"
+	       value={{ item.rate }} />
       </td>
       <td>
       	<select name="taskitem_employee_id_{{item.id}}">
 	  {% for employee in employees %}
 	  {% if employee.id == item.employee_id %}
-	  <option value={{ employee.id }} selected>{{ employee.first_name }} {{ employee.last_name }}, {{ employee.title }}</option>
+	  <option value={{ employee.id }} selected>
+	    {{ employee.first_name }} {{ employee.last_name }}, {{ employee.title }}
+	  </option>
 	  {% else %}
-	  <option value={{ employee.id }}>{{ employee.first_name }} {{ employee.last_name }}, {{ employee.title }}</option>
+	  <option value={{ employee.id }}>
+	    {{ employee.first_name }} {{ employee.last_name }}, {{ employee.title }}
+	  </option>
 	  {% endif %}
 	  {% endfor %}
       	</select>
