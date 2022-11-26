@@ -94,6 +94,7 @@ def create_task(request):
 
 
 def get_invoice(request, project_id, invoice_id):
+    import ipdb ; ipdb.set_trace()
     project = _get_object(request, Project, project_id)
     invoice = _get_object(request, Invoice, invoice_id)
     employees = Employee.objects.all()

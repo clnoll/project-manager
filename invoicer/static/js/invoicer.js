@@ -1,6 +1,8 @@
 function calculateCost(item_id) {
     var rate = parseFloat(document.getElementById("taskitem_rate_" + item_id).value);
     var minutes_billed = parseFloat(document.getElementById("taskitem_minutes_billed_" + item_id).value);
+    console.log(rate);
+    console.log(minutes_billed);
     document.getElementById("taskitem_cost_" + item_id).innerHTML = "$" + Math.round(rate * minutes_billed / 60).toFixed(2);
 };
 
@@ -16,3 +18,5 @@ function calculateAllCosts() {
 window.onload = function() {
     calculateAllCosts();
 };
+
+console.log("js loaded");
